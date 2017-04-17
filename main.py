@@ -10,6 +10,7 @@ import sqlite3
 import subprocess
 import csv
 import argparse
+from functools import wraps
 
 import leancloud
 import arrow
@@ -45,9 +46,9 @@ def save_config():
     try:
         output = subprocess.check_output(['lean', 'env'])
     except FileNotFoundError:
-        sys.exit('请先安装 LeanCloud 命令行工具')
+        sys.exit('💩  请先安装 LeanCloud 命令行工具')
     except subprocess.CalledProcessError:
-        sys.exit('请确认是否已通过命令行登录并切换到对应应用')
+        sys.exit('💩  请确认是否已通过命令行登录并切换到对应应用')
     output = output.decode('utf-8').strip().split('\n')[1:]
     output = [x.split(' ', 1)[1] for x in output]
     envs = [x.split('=') for x in output]
@@ -67,7 +68,7 @@ def init_leancloud_sdk():
             leancloud.init(*credentials)
             leancloud.use_master_key(False)
         except TypeError:
-            sys.exit('💩 ', '初始化参数不正确。请检查是否已经正确执行了 save_config 。')
+            sys.exit('💩  初始化参数不正确。请检查是否已经正确执行了 save_config 。')
         except leancloud.LeanCloudError as e:
             sys.exit(e)
 
@@ -90,7 +91,7 @@ def _dump(obj):
              int(obj.get('createdAt').timestamp()),
              obj.get('tid'))
     else:
-        raise TypeError('💩 ', '暂时只支持保存 ticket 和 reply 。')
+        raise TypeError('💩  暂时只支持保存 ticket 和 reply 。')
     return t
 
 
