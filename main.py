@@ -9,8 +9,6 @@ import sys
 import sqlite3
 import subprocess
 import csv
-import argparse
-from functools import wraps
 
 import leancloud
 import arrow
