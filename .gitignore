@@ -145,3 +145,6 @@ pip-selfcheck.json
 ### LeanCloud ###
 .leancloud
 .leanignore
+
+### Generated CSV Files ###
+*.csv
